@@ -1,0 +1,70 @@
+buildscript {
+    repositories {
+        mavenCentral()
+    }
+    dependencies {
+        classpath("org.springframework.boot:spring-boot-gradle-plugin:1.2.5.RELEASE")
+    }
+}
+apply plugin: 'maven'
+apply plugin: 'java'
+apply plugin: 'eclipse'
+apply plugin: 'idea'
+apply plugin: 'war'
+//apply plugin: 'spring-boot'
+apply plugin: 'maven-publish'
+defaultTasks 'clean', 'idea','eclipse','build'
+repositories {
+   mavenCentral()
+   
+}
+   project.ext {
+	springVersion = "4.1.4.RELEASE"
+	slf4jVersion = "1.7.6"
+	httpClientVersion = "4.3.2"
+	
+	springArtifacts = [
+			'spring-beans',
+			'spring-context',
+			'spring-core',
+			'spring-aop',
+			'spring-web',
+			'spring-webmvc'
+	]
+}
+
+dependencies {
+	
+	compile 'org.apache.commons:commons-lang3:3.4'
+compile 'javax.servlet:javax.servlet-api:3.1.0'
+compile 'javax.validation:validation-api:1.1.0.Final'
+
+	compile ('com.fasterxml.jackson.jaxrs:jackson-jaxrs-json-provider:2.5.2')
+	compile 'org.springframework:spring-context-support:4.1.4.RELEASE'
+    compile 'log4j:log4j:1.2.17'
+     compile 'org.json:json:20140107'
+
+compile 'javax.inject:javax.inject:1'
+springArtifacts.each { artifact ->
+		compile "org.springframework:$artifact:$springVersion"
+	}
+
+compile 'junit:junit:4.11'
+
+	compile 'javax.el:el-api:2.2'
+
+
+}
+    idea {
+    module {
+        inheritOutputDirs = false
+        outputDir = file("$buildDir/classes/main/")
+    }
+}
+ configurations.all {
+    resolutionStrategy.cacheChangingModulesFor 0, 'seconds'
+}
+
+    war {
+ baseName="Sudoku"
+}
